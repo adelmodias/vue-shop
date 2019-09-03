@@ -97,11 +97,21 @@
 
 <script>
 // @ is an alias to /src
+import { fb } from "@/firebaseConfig.js";
 export default {
   name: "admn",
   methods: {
     toggleSidebar() {
       $(".page-wrapper").toggleClass("toggled");
+    },
+    logout() {
+      fb.auth().signOut()
+      .then(() => {
+        this.$router.replace("/");
+      })
+      .catch((err) => {
+        alert(err);
+      })
     }
   }
 };
