@@ -1,7 +1,7 @@
-import firebase from '@firebase/app'
-import 'firebase/firestore'
-import 'firebase/firebase-auth'
-import 'firebase/storage'
+import firebase from "@firebase/app";
+import "firebase/firestore";
+import "firebase/firebase-auth";
+import "firebase/storage";
 
 // Initialize Firebase
 var config = {
@@ -17,4 +17,4 @@ const fb = firebase.initializeApp(config);
 
 const db = firebase.firestore();
 
-export { fb, db }
+export { fb, db };

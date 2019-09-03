@@ -8,7 +8,7 @@ import "bootstrap";
 import "./assets/scss/app.scss";
 import { fb } from "@/firebaseConfig.js";
 
-Vue.component('Navbar', require('./components/NavBar.vue').default);
+Vue.component("Navbar", require("./components/NavBar.vue").default);
 Vue.config.productionTip = false;
 
 let app = "";
@@ -20,5 +20,3 @@ fb.auth().onAuthStateChanged(function(user) {
     }).$mount("#app");
   }
 });
-  
-  

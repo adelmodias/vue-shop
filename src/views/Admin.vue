@@ -1,7 +1,12 @@
 <template>
   <div class="home">
     <div class="page-wrapper default-theme sidebar-bg bg1 toggled">
-      <a id="show-sidebar" @click.prevent="toggleSidebar" class="btn btn-sm btn-dark" href="#">
+      <a
+        id="show-sidebar"
+        @click.prevent="toggleSidebar"
+        class="btn btn-sm btn-dark"
+        href="#"
+      >
         <i class="fas fa-bars"></i>
       </a>
       <nav id="sidebar" class="sidebar-wrapper">
@@ -16,12 +21,14 @@
           <!-- sidebar-header  -->
           <div class="sidebar-item sidebar-header d-flex flex-nowrap">
             <div class="user-pic">
-              <img class="img-responsive img-rounded" src="/img/user.png" alt="User picture">
+              <img
+                class="img-responsive img-rounded"
+                src="/img/user.png"
+                alt="User picture"
+              />
             </div>
             <div class="user-info">
-              <span class="user-name">
-                <strong>Adelmo</strong> Dias
-              </span>
+              <span class="user-name"> <strong>Adelmo</strong> Dias </span>
               <span class="user-role">Administrator</span>
               <span class="user-status">
                 <i class="fa fa-circle"></i>
@@ -33,7 +40,11 @@
           <div class="sidebar-item sidebar-search">
             <div>
               <div class="input-group">
-                <input type="text" class="form-control search-menu" placeholder="Search...">
+                <input
+                  type="text"
+                  class="form-control search-menu"
+                  placeholder="Search..."
+                />
                 <div class="input-group-append">
                   <span class="input-group-text">
                     <i class="fa fa-search" aria-hidden="true"></i>
@@ -105,17 +116,17 @@ export default {
       $(".page-wrapper").toggleClass("toggled");
     },
     logout() {
-      fb.auth().signOut()
-      .then(() => {
-        this.$router.replace("/");
-      })
-      .catch((err) => {
-        alert(err);
-      })
+      fb.auth()
+        .signOut()
+        .then(() => {
+          this.$router.replace("/");
+        })
+        .catch(err => {
+          alert(err);
+        });
     }
   }
 };
 </script>
 
-<style>
-</style>
+<style></style>
