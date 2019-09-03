@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import {fb} from "../firebase";
+import {fb} from "../firebaseConfig";
 export default {
   name: "login",
   data() {
