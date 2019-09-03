@@ -7,9 +7,13 @@ import Products from "./views/Products.vue";
 import Orders from "./views/Orders.vue";
 import Profile from "./views/Profile.vue";
 
+import { fb } from "@/firebaseConfig.js";
+
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
+  // mode: "history",
+  // base: proccess.env.BASE_URL,
   routes: [
     {
       path: "/",
@@ -20,7 +24,8 @@ export default new Router({
       path: "/admin",
       name: "admin",
       component: Admin,
-      children:[
+      meta: { requiresAuth: true },
+      children: [
         {
           path: "overview",
           name: "overview",
@@ -54,3 +59,18 @@ export default new Router({
     }
   ]
 });
+
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const currentUser = fb.auth().currentUser;
+
+  if (requiresAuth && !currentUser) {
+    next("/");
+  } else if (requiresAuth && currentUser) {
+    next(); // make sure to always call next()!
+  } else {
+    next();
+  }
+});
+
+export default router;

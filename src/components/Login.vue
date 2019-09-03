@@ -103,7 +103,23 @@ export default {
       });
     },
     login() {
-      console.log('login');
+      fb.auth().signInWithEmailAndPassword(this.email, this.password)
+      .then(() => {
+        $('#loginModal').modal('hide');
+        this.$router.replace("admin");
+      })
+      .catch(error => {
+
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        if (errorCode == "auth/invalid-email") {
+          alert("The email is invalid.")
+        } else {
+          alert(errorMessage);
+        }
+        console.log(error);
+
+      })
     }
   }
 }
