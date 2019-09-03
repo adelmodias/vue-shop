@@ -1,7 +1,10 @@
-import firebase from "firebase";
+import firebase from '@firebase/app'
+import 'firebase/firestore'
+import 'firebase/firebase-auth'
+import 'firebase/storage'
 
-// Your web app's Firebase configuration
-var firebaseConfig = {
+// Initialize Firebase
+var config = {
   apiKey: "AIzaSyDzPLeVoZ1s8LT_AHogQJY89vyQgdWiRWE",
   authDomain: "vue-shop-2addd.firebaseapp.com",
   databaseURL: "https://vue-shop-2addd.firebaseio.com",
@@ -10,5 +13,9 @@ var firebaseConfig = {
   messagingSenderId: "601528945171",
   appId: "1:601528945171:web:7f2acecb07464323"
 };
-// Initialize Firebase
-export const fb = firebase.initializeApp(firebaseConfig);
+
+const fb = firebase.initializeApp(config);
+
+const db = firebase.firestore();
+
+export { fb, db }
