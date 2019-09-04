@@ -17,6 +17,10 @@
       </div>
 
       <hr />
+
+      <h3>Basic CRUD (create/read/update/delete) in Firebase and Vue</h3>
+
+      <!-- Add product -->
       <div class="product-test">
         <div class="form-group">
           <input
@@ -40,6 +44,25 @@
           <button @click="saveData" class="btn btn-primary">Save data</button>
         </div>
       </div>
+      <!-- /Add product -->
+
+      <h3>Products list</h3>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="product in products" :key="product.name">
+            <td>{{product.name}}</td>
+            <td>{{product.price}}</td>
+          </tr>
+        </tbody>
+      </table>
+
     </div>
   </div>
 </template>
@@ -51,6 +74,7 @@ export default {
   name: "Overview",
   data() {
     return {
+      products: [],
       product: {
         name: null,
         price: null
@@ -58,20 +82,33 @@ export default {
     };
   },
   methods: {
+    readData() {
+      this.products = [];
+      // Get all documents in a collection
+      db.collection("products").get().then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          this.products.push(doc.data());
+        });
+      });
+      console.log(JSON.stringify(this.products));
+    },
     saveData() {
       db.collection("products")
         .add(this.product)
         .then(docRef => {
           console.log("Document written with ID: ", docRef.id);
-          this.reset();
+          this.readData();
         })
         .catch(error => {
           console.error("Error adding document: ", error);
         });
     },
-    reset() {
-      Object.assign(this.$data, this.$options.data.apply(this));
-    }
+    // reset() {
+      // Object.assign(this.$data, this.$options.data.apply(this));
+    // }
+  },
+  created() {
+    this.readData();
   }
 };
 </script>
