@@ -53,12 +53,17 @@
           <tr>
             <th>Name</th>
             <th>Price</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="product in products" :key="product.name">
-            <td>{{product.name}}</td>
-            <td>{{product.price}}</td>
+          <tr v-for="product in products" :key="product.id">
+            <td>{{product.data().name}}</td>
+            <td>{{product.data().price}}</td>
+            <td>
+              <button class="btn btn-primary">Edit</button>
+              <button class="btn btn-danger" @click="deleteProduct(product.id)">Delete</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -87,10 +92,9 @@ export default {
       // Get all documents in a collection
       db.collection("products").get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
-          this.products.push(doc.data());
+          this.products.push(doc);
         });
       });
-      console.log(JSON.stringify(this.products));
     },
     saveData() {
       db.collection("products")
@@ -103,6 +107,20 @@ export default {
           console.error("Error adding document: ", error);
         });
     },
+    deleteProduct(productID) {
+      if (confirm("Are you sure?")) {
+
+        db.collection("products").doc(productID).delete().then(function() {
+            console.log("Document successfully deleted!");
+        }).catch(function(error) {
+            console.error("Error removing document: ", error);
+        });
+        this.readData();
+        
+      } else {
+
+      }
+    }
     // reset() {
       // Object.assign(this.$data, this.$options.data.apply(this));
     // }
