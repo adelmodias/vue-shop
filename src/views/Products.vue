@@ -103,7 +103,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button @click="updateProduct()" type="button" class="btn btn-primary">Save changes</button>
           </div>
         </div>
       </div>
@@ -123,11 +123,30 @@ export default {
       product: {
         name: null,
         price: null
-      }
+      },
+      activeItem: null
     };
   },
   methods: {
+    updateProduct() {
+      db.collection("products").doc(this.activeItem).update(this.product)
+      .then(() => {
+          console.log("Document successfully updated!");
+          this.readData();
+          this.product = {
+            name: null,
+            price: null
+          }
+          $("#edit").modal("hide");
+      })
+      .catch(function(error) {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+      });
+    },
     editProduct(product) {
+      this.product = product.data();
+      this.activeItem = product.id;
       $("#edit").modal("show");
     },
     readData() {
