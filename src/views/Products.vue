@@ -128,11 +128,19 @@ export default {
     };
   },
   methods: {
+    watcher() {
+      db.collection("products").onSnapshot((querySnapshot) => {
+        this.products = [];
+        querySnapshot.forEach((doc) => {
+            this.products.push(doc);
+        });
+      });
+    },
     updateProduct() {
       db.collection("products").doc(this.activeItem).update(this.product)
       .then(() => {
+        this.watcher();
           console.log("Document successfully updated!");
-          this.readData();
           this.product = {
             name: null,
             price: null
