@@ -72,13 +72,14 @@
                 </div>
 
                 <div class="form-group">
-                  <textarea
+                  <!-- <textarea
                     class="form-control"
                     id="exampleFormControlTextarea1"
                     rows="3"
                     placeholder="Product Description"
                     v-model="product.description"
-                  ></textarea>
+                  ></textarea> -->
+                  <vue-editor v-model="product.description"></vue-editor>
                 </div>
               </div>
 
@@ -131,9 +132,13 @@
 
 <script>
 import { fb, db } from "@/firebaseConfig.js";
+import { VueEditor } from "vue2-editor";
 
 export default {
   name: "Overview",
+  components: {
+    VueEditor
+  },
   data() {
     return {
       products: [],
