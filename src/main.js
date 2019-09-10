@@ -5,7 +5,10 @@ import jQuery from "jquery";
 import { fb } from "@/firebaseConfig.js";
 import VueFirestore from "vue-firestore";
 
-Vue.use(VueFirestore);
+Vue.use(VueFirestore, {
+  key: 'id',
+  enumerable: true
+});
 
 window.$ = window.jQuery = jQuery;
 

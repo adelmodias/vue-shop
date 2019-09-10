@@ -30,11 +30,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="product in products" :key="product['.key']">
+          <tr v-for="product in products" :key="product.id">
             <td>{{product.name}}</td>
             <td>{{product.price}}</td>
             <td>
-              <button class="btn btn-primary">Edit</button>
+              <button class="btn btn-primary" @click="editProduct(product)">Edit</button>
               <button class="btn btn-danger" @click="deleteProduct(product)">Delete</button>
             </td>
           </tr>
@@ -110,7 +110,18 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button @click="addProduct()" type="button" class="btn btn-primary">Save changes</button>
+            <button
+              v-if="modal == 'new'"
+              @click="addProduct()"
+              type="button"
+              class="btn btn-primary"
+            >Add product</button>
+            <button
+              v-if="modal == 'edit'"
+              @click="updateProduct()"
+              type="button"
+              class="btn btn-primary"
+            >Save changes</button>
           </div>
         </div>
       </div>
@@ -133,7 +144,7 @@ export default {
         tag: null,
         image: null
       },
-      activeItem: null
+      modal: null
     };
   },
   firestore() {
@@ -144,10 +155,22 @@ export default {
   methods: {
     uploadImage() {},
     addNew() {
+      this.modal = "new";
       $("#product").modal("show");
     },
-    updateProduct() {},
-    editProduct(product) {},
+    updateProduct() {
+      this.$firestore.products.doc(this.product.id).update(this.product);
+      Toast.fire({
+        type: "success",
+        title: "Your file has been updated."
+      });
+      $("#product").modal("hide");
+    },
+    editProduct(product) {
+      this.modal = "edit";
+      this.product = product;
+      $("#product").modal("show");
+    },
     readData() {},
     addProduct() {
       this.$firestore.products.add(this.product);
@@ -168,7 +191,7 @@ export default {
         confirmButtonText: "Yes, delete it!"
       }).then(result => {
         if (result.value) {
-          this.$firestore.products.doc(product[".key"]).delete();
+          this.$firestore.products.doc(product.id).delete();
           // Swal.fire("Deleted!", "Your file has been deleted.", "success");
           Toast.fire({
             type: "success",
